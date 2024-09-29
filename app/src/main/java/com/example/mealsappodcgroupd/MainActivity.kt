@@ -34,8 +34,8 @@ fun MealsAppCompose() {
     NavHost(navController = navController, startDestination = Screen.MainScreen.route) {
         composable(Screen.MainScreen.route) { MainScreen(navController) }
         composable(
-            "${Screen.MealDetailsScreen.route}/{mealName}",
-            arguments = listOf(navArgument("mealName") { type = NavType.StringType })
+            "${Screen.MealDetailsScreen.route}/{category}",
+            arguments = listOf(navArgument("category") { type = NavType.StringType })
         ) { MealDetailsScreen() }
     }
 }

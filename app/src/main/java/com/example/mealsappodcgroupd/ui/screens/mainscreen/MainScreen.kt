@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.mealsappodcgroupd.Screen
+import com.google.gson.Gson
 
 
 @Preview(showBackground = true, showSystemUi = true)
@@ -22,12 +23,16 @@ import com.example.mealsappodcgroupd.Screen
 fun MainScreen(navController: NavController? = null, viewmodel: MainViewModel = hiltViewModel()) {
 
     val meals by viewmodel.meals.collectAsState()
-
+    
     Box(modifier = Modifier.fillMaxSize().padding(horizontal = 20.dp, vertical = 30.dp)){
         LazyColumn(modifier = Modifier.fillMaxSize().padding(top = 10.dp)) {
              items(meals.categories){
                  MealItem(title = it.strCategory ?: "" , imageUrl = it.strCategoryThumb ?: ""){
-                     navController?.navigate("${Screen.MealDetailsScreen.route}/${it.strCategory}")
+                         val gson = Gson()
+                         val categoryDataJson = gson.toJson(it)
+                         val encodedCategoryDataJson = java.net.URLEncoder.encode(categoryDataJson, "UTF-8")
+                         navController?.navigate("${Screen.MealDetailsScreen.route}/${encodedCategoryDataJson}")
+
                  }
              }
         }
